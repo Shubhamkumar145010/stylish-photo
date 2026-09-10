@@ -44,6 +44,20 @@ create table professional_profiles (
   created_at timestamptz not null default now()
 );
 
+create table professional_portfolio_posts (
+  id uuid primary key default gen_random_uuid(),
+  professional_id uuid not null references professional_profiles(id) on delete cascade,
+  title text not null check (length(title) between 3 and 120),
+  description text not null check (length(description) between 10 and 2000),
+  skills text[] not null default '{}',
+  portfolio_url text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index professional_portfolio_posts_idx
+  on professional_portfolio_posts(professional_id, created_at desc);
+
 create table messages (
   id uuid primary key default gen_random_uuid(),
   sender_id uuid not null references app_users(id) on delete cascade,

@@ -244,6 +244,96 @@ export function createApp({ database = createDatabase(), verifyAccessToken = cre
     return response.json({ data: result.rows });
   });
 
+  app.post("/api/professional/profile", writeLimiter, requireUser, async (request, response) => {
+    const input = z.object({
+      displayName: z.string().trim().min(2).max(80),
+      category: z.string().trim().min(2).max(40),
+      description: z.string().trim().min(10).max(1000),
+      serviceArea: z.string().trim().min(2).max(80),
+      experienceYears: z.number().int().min(0).max(80).optional(),
+      availability: z.string().trim().max(120).optional(),
+      pricingSummary: z.string().trim().max(160).optional()
+    }).safeParse(request.body);
+    if (!input.success) return response.status(400).json(jsonError("Invalid professional profile."));
+    if (!database) return response.status(503).json(jsonError("Database is not configured.", 503));
+    const profile = input.data;
+    const client = await database.connect();
+    try {
+      await client.query("begin");
+      await client.query(
+        `update app_users
+            set display_name = $1, account_role = 'provider', city_area = $2
+          where id = $3`,
+        [profile.displayName, profile.serviceArea, request.userId]
+      );
+      const result = await client.query(
+        `insert into professional_profiles
+          (user_id, category, description, service_area, experience_years, availability, pricing_summary)
+         values ($1, $2, $3, $4, $5, $6, $7)
+         on conflict (user_id) do update set
+           category = excluded.category,
+           description = excluded.description,
+           service_area = excluded.service_area,
+           experience_years = excluded.experience_years,
+           availability = excluded.availability,
+           pricing_summary = excluded.pricing_summary
+         returning id, user_id, category, description, service_area,
+                   experience_years, availability, pricing_summary`,
+        [
+          request.userId, profile.category, profile.description, profile.serviceArea,
+          profile.experienceYears ?? null, profile.availability || null, profile.pricingSummary || null
+        ]
+      );
+      await client.query("commit");
+      return response.status(201).json({ data: result.rows[0] });
+    } catch (error) {
+      await client.query("rollback");
+      throw error;
+    } finally {
+      client.release();
+    }
+  });
+
+  app.post("/api/professional/portfolio", writeLimiter, requireUser, async (request, response) => {
+    const input = z.object({
+      title: z.string().trim().min(3).max(120),
+      description: z.string().trim().min(10).max(2000),
+      skills: z.array(z.string().trim().min(1).max(40)).max(12).default([]),
+      portfolioUrl: z.string().url().max(500).optional()
+    }).safeParse(request.body);
+    if (!input.success) return response.status(400).json(jsonError("Invalid portfolio post."));
+    if (!database) return response.status(503).json(jsonError("Database is not configured.", 503));
+    const result = await database.query(
+      `insert into professional_portfolio_posts
+        (professional_id, title, description, skills, portfolio_url)
+       select id, $2, $3, $4, $5
+         from professional_profiles
+        where user_id = $1
+       returning id, professional_id, title, description, skills, portfolio_url, created_at`,
+      [
+        request.userId, input.data.title, input.data.description,
+        input.data.skills, input.data.portfolioUrl || null
+      ]
+    );
+    if (!result.rowCount) return response.status(409).json(jsonError("Create your professional profile first.", 409));
+    return response.status(201).json({ data: result.rows[0] });
+  });
+
+  app.get("/api/professionals/:professionalId/portfolio", async (request, response) => {
+    const professionalId = z.string().uuid().safeParse(request.params.professionalId);
+    if (!professionalId.success) return response.status(400).json(jsonError("Invalid professional profile."));
+    if (!database) return response.status(503).json(jsonError("Database is not configured.", 503));
+    const result = await database.query(
+      `select id, title, description, skills, portfolio_url, created_at
+         from professional_portfolio_posts
+        where professional_id = $1
+        order by created_at desc
+        limit 50`,
+      [professionalId.data]
+    );
+    return response.json({ data: result.rows });
+  });
+
   app.post("/api/reports", writeLimiter, requireUser, async (request, response) => {
     const input = z.object({
       subjectUserId: z.string().uuid(),

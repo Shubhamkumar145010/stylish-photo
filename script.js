@@ -52,5 +52,34 @@ document.querySelector("#actionForm").addEventListener("submit",async event=>{ev
 document.querySelector("#searchButton").addEventListener("click",()=>{document.querySelector("#discover").scrollIntoView({behavior:"smooth"});renderProfessionals()});search.addEventListener("input",renderProfessionals);
 document.querySelectorAll(".chip").forEach(button=>button.addEventListener("click",()=>{document.querySelector(".chip.active").classList.remove("active");button.classList.add("active");activeCategory=button.dataset.category;renderProfessionals()}));
 document.querySelectorAll("[data-plan]").forEach(button=>button.addEventListener("click",()=>openModal(button.dataset.plan,"This plan is ready for secure checkout after a backend payment provider is connected. No card data is stored by LocalHelp.","Continue to checkout")));
+async function submitProfessionalForm(form, endpoint, message, body){
+ const button=form.querySelector("button[type=submit]");
+ button.disabled=true;
+ message.textContent="Saving securely…";
+ try{
+  const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(body)});
+  const payload=await response.json().catch(()=>null);
+  message.textContent=response.ok?"Saved. Your profile/work sample is ready for moderation.":payload?.error?.message||"Sign in is required before publishing.";
+ }catch{message.textContent="The secure service is unavailable. Please try again later."}
+ finally{button.disabled=false}
+}
+document.querySelector("#professionalProfileForm").addEventListener("submit",event=>{
+ event.preventDefault();
+ const form=event.target, data=new FormData(form);
+ submitProfessionalForm(form,"/api/professional/profile",document.querySelector("#profileMessage"),{
+  displayName:data.get("displayName"),category:data.get("category"),description:data.get("description"),
+  serviceArea:data.get("serviceArea"),experienceYears:data.get("experienceYears")?Number(data.get("experienceYears")):undefined,
+  availability:data.get("availability"),pricingSummary:data.get("pricingSummary")
+ });
+});
+document.querySelector("#portfolioForm").addEventListener("submit",event=>{
+ event.preventDefault();
+ const form=event.target, data=new FormData(form);
+ submitProfessionalForm(form,"/api/professional/portfolio",document.querySelector("#portfolioMessage"),{
+  title:data.get("title"),description:data.get("description"),
+  skills:String(data.get("skills")||"").split(",").map(skill=>skill.trim()).filter(Boolean),
+  portfolioUrl:data.get("portfolioUrl")||undefined
+ });
+});
 document.querySelector("#reviewOrder").addEventListener("click",()=>{const lines=cart.map(item=>`${item.product} from ${item.store} — ${item.price}`).join("\n");openModal("Review local order",`Your items:\n${lines}\n\nOrder requests require a configured store backend. No payment will be taken in this prototype.`,"Request order")});
 renderProfessionals();renderStores();renderCart();loadProfessionals();

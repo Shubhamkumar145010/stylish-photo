@@ -41,6 +41,34 @@
       <p class="empty-state" id="emptyProfessionals">No matching professionals. Try a different search.</p>
     </section>
 
+    <section class="section provider-section" id="for-professionals">
+      <div class="section-title"><div><p class="eyebrow">GROW YOUR WORK</p><h2>Professional profile and portfolio</h2><p>Sign in, describe your service, then publish safe work samples for customers to discover.</p></div></div>
+      <div class="provider-grid">
+        <form class="provider-form" id="professionalProfileForm">
+          <h3>Create your professional profile</h3>
+          <label>Display name<input name="displayName" required maxlength="80" placeholder="Your professional name"></label>
+          <label>Category<input name="category" required maxlength="40" placeholder="e.g. Video Editor"></label>
+          <label>Service area<input name="serviceArea" required maxlength="80" placeholder="City or broad area"></label>
+          <label>About your service<textarea name="description" required maxlength="1000" placeholder="What do you help people with?"></textarea></label>
+          <label>Experience in years<input name="experienceYears" type="number" min="0" max="80"></label>
+          <label>Availability<input name="availability" maxlength="120" placeholder="Mon-Sat, 10am-6pm"></label>
+          <label>Starting price<input name="pricingSummary" maxlength="160" placeholder="Starting from ₹999"></label>
+          <button class="primary-wide" type="submit">Save professional profile</button>
+          <p class="form-message" id="profileMessage"></p>
+        </form>
+        <form class="provider-form" id="portfolioForm">
+          <h3>Publish a work sample</h3>
+          <label>Work title<input name="title" required maxlength="120" placeholder="Business reel editing"></label>
+          <label>Description<textarea name="description" required maxlength="2000" placeholder="Explain what you delivered and the result."></textarea></label>
+          <label>Skills<input name="skills" maxlength="400" placeholder="Premiere Pro, Reels, Colour grading"></label>
+          <label>Portfolio link (optional)<input name="portfolioUrl" type="url" maxlength="500" placeholder="https://your-portfolio.example"></label>
+          <button class="primary-wide" type="submit">Publish work sample</button>
+          <p class="form-message" id="portfolioMessage"></p>
+          <small>Do not upload government IDs, private documents, customer data or sensitive files.</small>
+        </form>
+      </div>
+    </section>
+
     <section class="section store-section" id="stores">
       <div class="section-title"><div><p class="eyebrow">SHOP LOCAL</p><h2>Neighbourhood stores</h2></div><span id="cartCount">0 items</span></div>
       <div class="store-grid" id="storeGrid"></div>

@@ -31,4 +31,8 @@ The health endpoint must report `database: "ok"` before accepting traffic. The s
 4. Run the schema migration through a controlled release step before enabling traffic.
 5. Confirm `/api/ready` returns `{"ready":true}` and review logs for secrets or sensitive payloads before launch.
 
+The professional profile and portfolio feature requires the
+`professional_portfolio_posts` table from `server/schema.sql` to be applied to
+an existing database before professionals publish work samples.
+
 Do not paste provider keys into source files, `render.yaml`, browser JavaScript, issue trackers, or chat messages.
