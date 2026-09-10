@@ -43,12 +43,19 @@ function renderStores(){
 }
 function renderCart(){document.querySelector("#cartCount").textContent=`${cart.length} item${cart.length===1?"":"s"}`;document.querySelector("#cartSummary").textContent=cart.length?`${cart.length} item${cart.length===1?"":"s"} ready to order`:"Your cart is empty";document.querySelector("#reviewOrder").disabled=!cart.length}
 const modal=document.querySelector("#actionModal"),modalTitle=document.querySelector("#modalTitle"),modalCopy=document.querySelector("#modalCopy"),modalSubmit=document.querySelector("#modalSubmit"),success=document.querySelector("#successMessage");
+let accessToken=window.localStorage.getItem("localhelp_access_token")||"";
+function readAuthCallback(){
+ const hash=new URLSearchParams(window.location.hash.replace(/^#/,""));
+ const token=hash.get("access_token");
+ if(token){accessToken=token;window.localStorage.setItem("localhelp_access_token",token);history.replaceState({},document.title,window.location.pathname);success.textContent="You are signed in.";closeModal()}
+}
+readAuthCallback();
 function openModal(title,copy,submit){modalTitle.textContent=title;modalCopy.textContent=copy;modalSubmit.textContent=submit;success.textContent="";modal.classList.add("open");modal.setAttribute("aria-hidden","false");modal.querySelector("input").focus()}
 function closeModal(){modal.classList.remove("open");modal.setAttribute("aria-hidden","true")}
-document.querySelector("#joinButton").addEventListener("click",()=>openModal("Join LocalHelp","Create a secure account with your email or mobile. We never ask for government documents in this app.","Create account"));
-document.querySelector("#signInButton").addEventListener("click",()=>openModal("Sign in securely","Use your email or mobile. Production authentication must use OTP/password hashing on the server.","Send OTP"));
+document.querySelector("#joinButton").addEventListener("click",()=>openModal("Join LocalHelp","Create a secure account with your email. We never ask for government documents in this app.","Send sign-in link"));
+document.querySelector("#signInButton").addEventListener("click",()=>openModal("Sign in securely","We will send a one-time sign-in link to your email.","Send sign-in link"));
 document.querySelector("#closeModal").addEventListener("click",closeModal);modal.addEventListener("click",event=>{if(event.target===modal)closeModal()});
-document.querySelector("#actionForm").addEventListener("submit",async event=>{event.preventDefault();const submit=event.target.querySelector("button");submit.disabled=true;success.textContent="Connecting securely…";try{const response=await fetch("/api/auth/request-otp",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({emailOrPhone:event.target.contact.value.trim()})});if(response.ok){success.textContent="Check your email or phone for the next sign-in step.";event.target.reset()}else{const payload=await response.json().catch(()=>null);success.textContent=payload?.error?.message||"Secure authentication is not configured yet."}}catch{success.textContent="The secure service is unavailable. Please try again later."}finally{submit.disabled=false}});
+document.querySelector("#actionForm").addEventListener("submit",async event=>{event.preventDefault();const submit=event.target.querySelector("button");submit.disabled=true;success.textContent="Sending secure sign-in link…";try{const response=await fetch("/api/auth/request-otp",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({emailOrPhone:event.target.contact.value.trim()})});if(response.ok){success.textContent="Check your email for the sign-in link.";event.target.reset()}else{const payload=await response.json().catch(()=>null);success.textContent=payload?.error?.message||"Secure authentication is not configured yet."}}catch{success.textContent="The secure service is unavailable. Please try again later."}finally{submit.disabled=false}});
 document.querySelector("#searchButton").addEventListener("click",()=>{document.querySelector("#discover").scrollIntoView({behavior:"smooth"});renderProfessionals()});search.addEventListener("input",renderProfessionals);
 document.querySelectorAll(".chip").forEach(button=>button.addEventListener("click",()=>{document.querySelector(".chip.active").classList.remove("active");button.classList.add("active");activeCategory=button.dataset.category;renderProfessionals()}));
 document.querySelectorAll("[data-plan]").forEach(button=>button.addEventListener("click",()=>openModal(button.dataset.plan,"This plan is ready for secure checkout after a backend payment provider is connected. No card data is stored by LocalHelp.","Continue to checkout")));
@@ -57,7 +64,7 @@ async function submitProfessionalForm(form, endpoint, message, body){
  button.disabled=true;
  message.textContent="Saving securely…";
  try{
-  const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(body)});
+  const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json",...(accessToken?{Authorization:`Bearer ${accessToken}`}:{})},body:JSON.stringify(body)});
   const payload=await response.json().catch(()=>null);
   message.textContent=response.ok?"Saved. Your profile/work sample is ready for moderation.":payload?.error?.message||"Sign in is required before publishing.";
  }catch{message.textContent="The secure service is unavailable. Please try again later."}

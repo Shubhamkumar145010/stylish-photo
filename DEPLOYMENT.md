@@ -27,7 +27,7 @@ The health endpoint must report `database: "ok"` before accepting traffic. The s
 
 1. Create a Blueprint from this repository.
 2. Set `ALLOWED_ORIGINS` to the exact HTTPS URL Render assigns to the web service.
-3. Add managed authentication, payment, and external verification provider URLs only through Render secret environment variables.
+3. Add `SUPABASE_URL` and `SUPABASE_ANON_KEY` plus managed payment and external verification provider URLs only through Render secret environment variables.
 4. Run the schema migration through a controlled release step before enabling traffic.
 5. Confirm `/api/ready` returns `{"ready":true}` and review logs for secrets or sensitive payloads before launch.
 

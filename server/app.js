@@ -64,6 +64,20 @@ function jsonError(message, status = 400) {
 }
 
 function createAccessTokenVerifier() {
+  if (process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY) {
+    return async (token) => {
+      const result = await fetch(`${process.env.SUPABASE_URL}/auth/v1/user`, {
+        headers: {
+          apikey: process.env.SUPABASE_ANON_KEY,
+          authorization: `Bearer ${token}`
+        }
+      });
+      if (!result.ok) throw new Error("Supabase session is invalid");
+      const user = await result.json();
+      if (typeof user.id !== "string") throw new Error("Supabase user id is missing");
+      return user.id;
+    };
+  }
   if (!process.env.JWT_SECRET) {
     return async () => {
       throw new Error("Authentication is not configured");
@@ -166,12 +180,25 @@ export function createApp({ database = createDatabase(), verifyAccessToken = cre
       emailOrPhone: z.string().trim().min(3).max(254)
     }).safeParse(request.body);
     if (!input.success) return response.status(400).json(jsonError("Enter a valid email address or phone number."));
-    if (!process.env.AUTH_PROVIDER_BASE_URL) {
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
       return response.status(503).json(jsonError("Authentication provider is not configured.", 503));
     }
-    // Production implementation must call the managed provider here.
-    // Never log the destination or generate/store OTPs locally.
-    return response.status(501).json(jsonError("Managed OTP integration is not enabled yet.", 501));
+    const providerResponse = await fetch(`${process.env.SUPABASE_URL}/auth/v1/otp`, {
+      method: "POST",
+      headers: {
+        apikey: process.env.SUPABASE_ANON_KEY,
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        email: input.data.emailOrPhone,
+        create_user: true,
+        options: { email_redirect_to: `${allowedOrigins.values().next().value || "http://localhost:3000"}/` }
+      })
+    });
+    if (!providerResponse.ok) {
+      return response.status(502).json(jsonError("The email provider could not send a sign-in link.", 502));
+    }
+    return response.status(202).json({ data: { accepted: true } });
   });
 
   async function requireUser(request, response, next) {
@@ -179,6 +206,14 @@ export function createApp({ database = createDatabase(), verifyAccessToken = cre
     if (!header.startsWith("Bearer ")) return response.status(401).json(jsonError("Authentication required.", 401));
     try {
       request.userId = await verifyAccessToken(header.slice(7));
+      if (database) {
+        await database.query(
+          `insert into app_users (id, display_name)
+           values ($1, 'LocalHelp member')
+           on conflict (id) do nothing`,
+          [request.userId]
+        );
+      }
       return next();
     } catch {
       return response.status(401).json(jsonError("Authentication required.", 401));
