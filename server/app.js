@@ -201,6 +201,29 @@ export function createApp({ database = createDatabase(), verifyAccessToken = cre
     return response.status(202).json({ data: { accepted: true } });
   });
 
+  app.post("/api/auth/verify-email", authLimiter, async (request, response) => {
+    const input = z.object({
+      tokenHash: z.string().trim().min(20).max(500),
+      type: z.enum(["magiclink", "email"])
+    }).safeParse(request.body);
+    if (!input.success) return response.status(400).json(jsonError("Invalid sign-in link."));
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
+      return response.status(503).json(jsonError("Authentication provider is not configured.", 503));
+    }
+    const providerResponse = await fetch(`${process.env.SUPABASE_URL}/auth/v1/verify`, {
+      method: "POST",
+      headers: {
+        apikey: process.env.SUPABASE_ANON_KEY,
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({ token: input.data.tokenHash, type: input.data.type })
+    });
+    if (!providerResponse.ok) return response.status(401).json(jsonError("This sign-in link is invalid or expired.", 401));
+    const session = await providerResponse.json();
+    if (typeof session.access_token !== "string") return response.status(502).json(jsonError("The provider returned an invalid session.", 502));
+    return response.json({ data: { accessToken: session.access_token } });
+  });
+
   async function requireUser(request, response, next) {
     const header = request.get("authorization") || "";
     if (!header.startsWith("Bearer ")) return response.status(401).json(jsonError("Authentication required.", 401));

@@ -44,10 +44,17 @@ function renderStores(){
 function renderCart(){document.querySelector("#cartCount").textContent=`${cart.length} item${cart.length===1?"":"s"}`;document.querySelector("#cartSummary").textContent=cart.length?`${cart.length} item${cart.length===1?"":"s"} ready to order`:"Your cart is empty";document.querySelector("#reviewOrder").disabled=!cart.length}
 const modal=document.querySelector("#actionModal"),modalTitle=document.querySelector("#modalTitle"),modalCopy=document.querySelector("#modalCopy"),modalSubmit=document.querySelector("#modalSubmit"),success=document.querySelector("#successMessage");
 let accessToken=window.localStorage.getItem("localhelp_access_token")||"";
-function readAuthCallback(){
+async function readAuthCallback(){
  const hash=new URLSearchParams(window.location.hash.replace(/^#/,""));
  const token=hash.get("access_token");
+ const tokenHash=new URLSearchParams(window.location.search).get("token_hash");
  if(token){accessToken=token;window.localStorage.setItem("localhelp_access_token",token);history.replaceState({},document.title,window.location.pathname);success.textContent="You are signed in.";closeModal()}
+ if(tokenHash){
+  const type=new URLSearchParams(window.location.search).get("type")||"magiclink";
+  const response=await fetch("/api/auth/verify-email",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({tokenHash,type})});
+  const payload=await response.json().catch(()=>null);
+  if(response.ok&&payload?.data?.accessToken){accessToken=payload.data.accessToken;window.localStorage.setItem("localhelp_access_token",accessToken);history.replaceState({},document.title,window.location.pathname);success.textContent="You are signed in."}
+ }
 }
 readAuthCallback();
 function openModal(title,copy,submit){modalTitle.textContent=title;modalCopy.textContent=copy;modalSubmit.textContent=submit;success.textContent="";modal.classList.add("open");modal.setAttribute("aria-hidden","false");modal.querySelector("input").focus()}
