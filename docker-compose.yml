@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: localhelp
+      POSTGRES_USER: localhelp
+      POSTGRES_PASSWORD: change-this-in-a-secret-manager
+    volumes:
+      - localhelp-db:/var/lib/postgresql/data
+      - ./server/schema.sql:/docker-entrypoint-initdb.d/001-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U localhelp -d localhelp"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  api:
+    build: .
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgresql://localhelp:change-this-in-a-secret-manager@db:5432/localhelp
+      JWT_ISSUER: localhelp
+      JWT_AUDIENCE: localhelp-web
+      JWT_SECRET: replace-this-with-a-secret-manager-value-at-least-32-characters
+      ALLOWED_ORIGINS: http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/ready').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  localhelp-db:

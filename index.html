@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="LocalHelp connects people with trusted local professionals and neighbourhood stores.">
+  <title>LocalHelp | Trusted help, close to home</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="LocalHelp home"><span>✦</span> LocalHelp</a>
+    <nav aria-label="Main navigation">
+      <a href="#discover">Discover</a><a href="#stores">Stores</a><a href="#safety">Safety</a><a href="#plans">Plans</a>
+    </nav>
+    <div class="header-actions"><button class="ghost-button" id="signInButton">Sign in</button><button class="primary-button" id="joinButton">Get started</button></div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">TRUSTED HELP, CLOSE TO HOME</p>
+        <h1>One calm place to get things <em>sorted.</em></h1>
+        <p class="hero-lede">Find verified professionals, order from neighbourhood stores, and connect with people safely — with privacy built in from day one.</p>
+        <div class="search-shell"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search a service, store or professional"><button id="searchButton" class="primary-button">Search</button></div>
+        <div class="hero-trust"><span>✓ No government documents stored</span><span>✓ Transparent verification statuses</span></div>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-orb"></div><div class="panel-card panel-main"><span class="panel-icon">🛡️</span><div><strong>Privacy-first by design</strong><p>Only the minimum status is kept. Sensitive identity documents never enter LocalHelp.</p></div></div>
+        <div class="panel-card panel-mini"><b>4.9</b><span>★ average rating</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="discover">
+      <div class="section-title"><div><p class="eyebrow">DISCOVER LOCAL HELP</p><h2>Professionals people rely on</h2></div><span id="resultCount"></span></div>
+      <div class="mode-notice" id="modeNotice">Demo examples are shown while the secure service is offline.</div>
+      <div class="chip-row" id="categoryFilters">
+        <button class="chip active" data-category="All">All</button><button class="chip" data-category="Home">Home</button><button class="chip" data-category="Medical">Medical</button><button class="chip" data-category="Digital">Digital</button><button class="chip" data-category="Learning">Learning</button><button class="chip" data-category="Business">Business</button><button class="chip" data-category="Personal">Personal</button>
+      </div>
+      <div class="card-grid" id="professionalGrid"></div>
+      <p class="empty-state" id="emptyProfessionals">No matching professionals. Try a different search.</p>
+    </section>
+
+    <section class="section store-section" id="stores">
+      <div class="section-title"><div><p class="eyebrow">SHOP LOCAL</p><h2>Neighbourhood stores</h2></div><span id="cartCount">0 items</span></div>
+      <div class="store-grid" id="storeGrid"></div>
+      <div class="cart-strip"><span id="cartSummary">Your cart is empty</span><button class="lime-button" id="reviewOrder" disabled>Review order</button></div>
+    </section>
+
+    <section class="section safety-section" id="safety">
+      <div class="section-title"><div><p class="eyebrow">BUILT FOR SAFER CONNECTIONS</p><h2>Trust is a system, not a badge.</h2></div></div>
+      <div class="safety-grid">
+        <article><span class="number">01</span><h3>Minimal verification</h3><p>LocalHelp stores only phone/email/identity/age/provider status and a random provider reference — never ID images, numbers or biometrics.</p></article>
+        <article><span class="number">02</span><h3>Human moderation</h3><p>Report, block, review queues and rate limits are core product features. Suspicious activity is flagged without exposing private data.</p></article>
+        <article><span class="number">03</span><h3>Private by default</h3><p>Coarse area only, no public phone numbers, no exact addresses, no sensitive documents in uploads, logs, analytics or backups.</p></article>
+      </div>
+      <div class="warning-box">⚠️ Never send money or government documents to someone you met online. Verification reduces risk; it cannot guarantee a person’s behaviour.</div>
+    </section>
+
+    <section class="section plans-section" id="plans">
+      <div class="section-title centered"><div><p class="eyebrow">SUSTAINABLE LOCAL BUSINESS</p><h2>Simple plans that help us keep it safe</h2><p>Users can discover and connect for free. Professionals pay only for tools that help them grow.</p></div></div>
+      <div class="plan-grid">
+        <article class="plan"><p class="plan-label">FOR USERS</p><h3>Free</h3><strong>₹0</strong><p>Discover providers, request quotes and shop local.</p><button class="outline-wide" data-plan="Free">Current plan</button></article>
+        <article class="plan featured"><span class="popular-tag">MOST POPULAR</span><p class="plan-label">FOR PROFESSIONALS</p><h3>Pro profile</h3><strong>₹299 <small>/month</small></strong><p>Priority discovery, portfolio, availability and verification-status signals.</p><button class="primary-wide" data-plan="Pro profile">Request early access</button></article>
+        <article class="plan"><p class="plan-label">FOR STORES</p><h3>Local shop</h3><strong>₹499 <small>/month</small></strong><p>Product catalogue, order requests and customer insights without selling personal data.</p><button class="outline-wide" data-plan="Local shop">Join stores</button></article>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>© 2026 LocalHelp</span><span>Privacy-first local discovery</span><a href="privacy.html">Privacy</a><a href="terms.html">Terms & safety</a><a href="#safety">Safety principles</a></footer>
+
+  <div class="modal-backdrop" id="actionModal" aria-hidden="true"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="close-modal" id="closeModal" aria-label="Close">×</button><p class="eyebrow" id="modalEyebrow">GET STARTED</p><h2 id="modalTitle">Join LocalHelp</h2><p class="modal-copy" id="modalCopy">Create a secure account with your email or mobile. We never ask for government documents in this app.</p><form id="actionForm"><label>Name<input name="name" required placeholder="Your name"></label><label>Email or mobile<input name="contact" required placeholder="you@example.com"></label><button class="primary-wide" type="submit" id="modalSubmit">Continue securely</button></form><p class="success-message" id="successMessage"></p></div></div>
+  <script src="script.js"></script>
+</body>
+</html>

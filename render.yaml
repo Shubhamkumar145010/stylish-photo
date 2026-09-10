@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: localhelp-api
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/ready
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: localhelp-db
+          property: connectionString
+      - key: JWT_ISSUER
+        value: localhelp
+      - key: JWT_AUDIENCE
+        value: localhelp-web
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: AUTH_PROVIDER_BASE_URL
+        sync: false
+      - key: PAYMENT_PROVIDER_BASE_URL
+        sync: false
+      - key: VERIFICATION_PROVIDER_BASE_URL
+        sync: false
+
+databases:
+  - name: localhelp-db
+    plan: starter
+    databaseName: localhelp
+    user: localhelp

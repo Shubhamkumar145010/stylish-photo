@@ -1,0 +1,25 @@
+{
+  "name": "localhelp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Privacy-first local discovery MVP",
+  "type": "module",
+  "scripts": {
+    "start": "node server/app.js",
+    "check": "node --check server/app.js && node --check script.js",
+    "test": "set NODE_ENV=test&& node --test server/app.test.js",
+    "preflight": "node server/preflight.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
+    "jose": "^6.1.0",
+    "pg": "^8.16.3",
+    "zod": "^4.1.5"
+  }
+}
