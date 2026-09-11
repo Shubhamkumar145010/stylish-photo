@@ -1,64 +1,34 @@
 <!doctype html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Stylish Name Generator - apne name, username ya kisi bhi text ko cool fonts aur symbols mein convert karein, copy ya download karein.">
-  <meta name="theme-color" content="#171329">
-  <meta property="og:title" content="Stylish Name | Stylish Name Generator">
-  <meta property="og:description" content="Apne naam aur text ko stylish banayein. Copy karein ya download karein.">
-  <title>Stylish Name | Stylish Name Generator</title>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Pixora Studio is a private online photo editor with background remover, filters, resize and free image download.">
+  <meta property="og:title" content="Pixora Studio | Simple photo editing, private by design">
+  <meta property="og:description" content="Remove backgrounds and edit photos in your browser. Your image stays on your device.">
+  <meta name="theme-color" content="#101a2d">
+  <title>Pixora Studio | Photo editor & background remover</title>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3984346525873378" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=picforge1">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#top"><span>✦</span> Stylish Name</a>
-    <nav><a href="#generator">Generator</a><a href="#styles">Styles</a><a href="#how">How it works</a><a href="about.html">About</a></nav>
-    <button class="outline-button" id="themeButton" aria-label="Toggle theme">☼</button>
-  </header>
-
+  <header class="topbar"><a class="brand" href="#top"><span>✦</span> Pixora Studio</a><nav><a href="#editor">Editor</a><a href="#tools">Tools</a><a href="#privacy">Privacy</a></nav><a class="mini-button" href="#editor">Start editing</a></header>
   <main id="top">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">YOUR NAME, YOUR VIBE</p>
-        <h1>Simple text ko <em>stylish</em> bana do.</h1>
-        <p class="lede">Instagram bio, gaming ID, WhatsApp name ya profile ke liye cool text banayein — type karein, style choose karein aur ek tap mein copy karein.</p>
-        <div class="hero-badges"><span>✓ Free forever</span><span>✓ No sign-up</span><span>✓ Copy & download</span></div>
+    <section class="hero"><div><p class="eyebrow">EDIT WITHOUT UPLOADING</p><h1>Your photo.<br><em>Your control.</em></h1><p class="lede">Remove a plain background, enhance your picture and download the result in seconds. Everything runs inside your browser.</p><a class="primary-button" href="#editor">Choose a photo <span>→</span></a><div class="trust"><span>✓ No account</span><span>✓ No server upload</span><span>✓ Free PNG export</span></div></div><div class="hero-art"><div class="art-card art-main"><div class="checker"></div><span>✦</span><b>Background<br>removed</b></div><div class="art-chip">100% private</div></div></section>
+    <section class="editor-section" id="editor"><div class="section-head"><div><p class="eyebrow">PHOTO WORKSPACE</p><h2>Make it look right</h2></div><span id="statusText">No photo selected</span></div>
+      <div class="workspace">
+        <div class="dropzone" id="dropzone"><input id="fileInput" type="file" accept="image/*" hidden><div class="upload-icon">↑</div><h3>Drop your image here</h3><p>or click to choose a JPG, PNG or WebP</p><button class="primary-button" id="chooseButton" type="button">Choose image</button><small>Your image stays on this device</small></div>
+        <div class="canvas-wrap"><canvas id="canvas" width="900" height="650"></canvas><div class="canvas-empty" id="canvasEmpty">Your edited image will appear here</div></div>
       </div>
-      <div class="hero-orbit"><div class="floating-pill pill-one">𝓒𝓸𝓸𝓵 𝓝𝓪𝓶𝓮</div><div class="floating-pill pill-two">『 ＧＡＭＥＲ 』</div><div class="floating-pill pill-three">★ 𝕮𝖗𝖊𝖆𝖙𝖔𝖗 ★</div></div>
-    </section>
-
-    <section class="generator-section" id="generator">
-      <div class="section-heading"><div><p class="eyebrow">MAKE IT YOURS</p><h2>Apna text likhiye</h2></div><span id="charCount">0 / 80</span></div>
-      <div class="input-wrap"><textarea id="sourceText" maxlength="80" placeholder="Yahan apna naam ya text likhein..." aria-label="Text to style">Aman</textarea><button id="clearButton" class="clear-button" title="Clear text">×</button></div>
-      <div class="quick-row"><span>Try:</span><button data-sample="亗 Shadow 亗">亗 Shadow 亗</button><button data-sample="Royal King">Royal King</button><button data-sample="Dream Big">Dream Big</button><button data-sample="꧁༺ Gamer ༻꧂">꧁༺ Gamer ༻꧂</button></div>
-      <div class="toolbar"><div class="tabs"><button class="tab active" data-filter="all">All styles · 1,000+</button><button class="tab" data-filter="clean">Classic</button><button class="tab" data-filter="font">Fonts</button><button class="tab" data-filter="gaming">Gaming</button><button class="tab" data-filter="cute">Cute</button><button class="tab" data-filter="symbols">Symbols</button><button class="tab" data-filter="generated">Mixes</button></div><button id="randomButton" class="random-button">⤨ Random style</button></div>
-      <div class="style-grid" id="styleGrid"></div>
-      <div class="empty" id="emptyState">Text likhte hi stylish options yahan dikhengi.</div>
-    </section>
-
-    <section class="why-section" id="styles">
-      <div class="section-heading"><div><p class="eyebrow">FIND YOUR STYLE</p><h2>Har mood ke liye style</h2></div></div>
-      <div class="category-grid">
-        <article><span class="category-icon purple">✦</span><h3>Profile & Bio</h3><p>Clean, elegant aur readable names jo Instagram, WhatsApp aur social profiles par achhe lagte hain.</p></article>
-        <article><span class="category-icon orange">⚡</span><h3>Gaming Names</h3><p>Battle royale, esports aur gaming IDs ke liye symbols, brackets aur bold styles.</p></article>
-        <article><span class="category-icon pink">♡</span><h3>Cute & Aesthetic</h3><p>Soft hearts, stars aur aesthetic fonts se apne text ko alag identity dijiye.</p></article>
+      <div class="controls" id="controls" aria-disabled="true">
+        <div class="control-group"><label>Adjust</label><div class="preset-row"><button class="tool-button preset" data-preset="normal">Original</button><button class="tool-button preset" data-preset="bright">Bright</button><button class="tool-button preset" data-preset="mono">B&W</button><button class="tool-button preset" data-preset="vivid">Vivid</button></div><div class="range-row"><span>☼ Brightness</span><input id="brightness" type="range" min="50" max="150" value="100"><output id="brightnessValue">100%</output></div><div class="range-row"><span>◐ Contrast</span><input id="contrast" type="range" min="50" max="150" value="100"><output id="contrastValue">100%</output></div><div class="range-row"><span>◉ Saturation</span><input id="saturation" type="range" min="0" max="200" value="100"><output id="saturationValue">100%</output></div><div class="range-row"><span>◌ Blur</span><input id="blur" type="range" min="0" max="8" value="0"><output id="blurValue">0px</output></div></div>
+        <div class="control-group"><label>Background remover</label><p class="hint">Best for photos with a plain, similar-colour background.</p><div class="color-row"><input id="removeColor" type="color" value="#ffffff"><button id="removeButton" class="tool-button">Remove selected colour</button><button id="resetBgButton" class="text-button">Reset</button></div><div class="range-row"><span>Color tolerance</span><input id="tolerance" type="range" min="5" max="100" value="35"><output id="toleranceValue">35</output></div></div>
+        <div class="control-group action-group"><label>Transform & export</label><div class="action-row"><button id="rotateButton" class="tool-button">↻ Rotate</button><button id="flipButton" class="tool-button">↔ Flip</button><button id="resetButton" class="text-button">Reset all</button></div><div class="resize-row"><label>Resize width <input id="resizeWidth" type="number" min="50" max="5000" placeholder="Original"></label><label>Height <input id="resizeHeight" type="number" min="50" max="5000" placeholder="Auto"></label></div><div class="download-row"><button id="downloadPng" class="primary-button">Download transparent PNG</button><button id="downloadJpg" class="secondary-button">Download JPG</button></div></div>
       </div>
     </section>
-
-    <section class="how-section" id="how">
-      <div><p class="eyebrow">THREE EASY STEPS</p><h2>Bas type, tap, copy.</h2></div>
-      <div class="steps"><div><b>01</b><h3>Text likhiye</h3><p>Naam, username, caption ya koi bhi short text enter karein.</p></div><div><b>02</b><h3>Style choose karein</h3><p>Cards ko browse karke apna favourite design dekhein.</p></div><div><b>03</b><h3>Copy ya download</h3><p>Styled text ko clipboard mein copy karein ya TXT file save karein.</p></div></div>
-    </section>
-    <section class="how-section contact-section" id="contact">
-      <div><p class="eyebrow">NEED HELP?</p><h2>Humse baat karein.</h2></div>
-      <div class="steps"><div><b>ABOUT</b><h3>Stylish Name</h3><p>Simple, free Unicode text generator for bios, gaming IDs and creative profiles.</p></div><div><b>CONTACT</b><h3><a href="mailto:hello@stylishname.in">hello@stylishname.in</a></h3><p>Feedback, bug report ya style suggestion bhejiye.</p></div></div>
-    </section>
+    <section class="tools-section" id="tools"><div class="section-head"><div><p class="eyebrow">MORE THAN A FILTER</p><h2>Useful tools, kept simple</h2></div></div><div class="feature-grid"><article><span>01</span><h3>Background remover</h3><p>Make a transparent PNG from a product, profile photo or simple graphic without uploading it anywhere.</p></article><article><span>02</span><h3>Quick enhancement</h3><p>Fix dull images with brightness, contrast and saturation controls that show the result live.</p></article><article><span>03</span><h3>Ready to share</h3><p>Rotate, flip and export transparent PNGs or lightweight JPGs for social media and marketplaces.</p></article></div></section>
+    <section class="privacy-section" id="privacy"><div><p class="eyebrow">PRIVATE BY DEFAULT</p><h2>Your photos stay yours.</h2></div><p>Pixora Studio processes images locally in your browser. We do not need an account, and this editor does not send your selected photo to our server. For best privacy, use a trusted device and clear downloads when finished.</p></section>
   </main>
-  <footer><span>© 2026 Stylish Name</span><span>Made for your next profile</span><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></footer>
-  <div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard ✓</div>
-  <style>.load-more{display:block;margin:24px auto 0;padding:12px 22px;border:1px solid #9a7cff;background:#24213d;color:#f8f7ff;border-radius:5px;font-weight:700;font-size:12px;cursor:pointer}.load-more:hover{background:#9a7cff}</style>
-  <script src="script.js?v=5"></script>
+  <footer><span>© 2026 Pixora Studio</span><span>Simple tools. Better images.</span><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></footer><div class="toast" id="toast" role="status"></div>
+  <script src="script.js?v=picforge1"></script>
 </body>
 </html>

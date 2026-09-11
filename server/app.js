@@ -102,7 +102,15 @@ export function createApp({ database = createDatabase(), verifyAccessToken = cre
   app.set("trust proxy", isProduction ? 1 : false);
   app.use(helmet({
     crossOriginResourcePolicy: { policy: "same-site" },
-    referrerPolicy: { policy: "no-referrer" }
+    referrerPolicy: { policy: "no-referrer" },
+    contentSecurityPolicy: {
+      directives: {
+        "script-src": ["'self'", "https://pagead2.googlesyndication.com"],
+        "connect-src": ["'self'", "https://pagead2.googlesyndication.com", "https://googleads.g.doubleclick.net"],
+        "img-src": ["'self'", "data:", "blob:", "https://pagead2.googlesyndication.com", "https://googleads.g.doubleclick.net"],
+        "frame-src": ["'self'", "https://googleads.g.doubleclick.net", "https://tpc.googlesyndication.com"]
+      }
+    }
   }));
   const publicAsset = (fileName, cacheControl) => (_request, response) => {
     response.setHeader("Cache-Control", cacheControl);

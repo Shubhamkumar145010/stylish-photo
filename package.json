@@ -1,8 +1,8 @@
 {
-  "name": "stylish-name",
+  "name": "pixora-studio",
   "version": "0.1.0",
   "private": true,
-  "description": "Stylish Name Generator with copy and download tools",
+  "description": "Private browser-based photo editor and background remover",
   "type": "module",
   "scripts": {
     "start": "node server/app.js",
