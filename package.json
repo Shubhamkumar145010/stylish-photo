@@ -1,8 +1,8 @@
 {
-  "name": "localhelp",
+  "name": "stylish-name",
   "version": "0.1.0",
   "private": true,
-  "description": "Privacy-first local discovery MVP",
+  "description": "Stylish Name Generator with copy and download tools",
   "type": "module",
   "scripts": {
     "start": "node server/app.js",

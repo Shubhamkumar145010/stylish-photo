@@ -1,103 +1,59 @@
 <!doctype html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="LocalHelp connects people with trusted local professionals and neighbourhood stores.">
-  <title>LocalHelp | Trusted help, close to home</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Stylish Name Generator - apne name, username ya kisi bhi text ko cool fonts aur symbols mein convert karein, copy ya download karein.">
+  <meta name="theme-color" content="#171329">
+  <meta property="og:title" content="Stylish Name | Stylish Name Generator">
+  <meta property="og:description" content="Apne naam aur text ko stylish banayein. Copy karein ya download karein.">
+  <title>Stylish Name | Stylish Name Generator</title>
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="LocalHelp home"><span>✦</span> LocalHelp</a>
-    <nav aria-label="Main navigation">
-      <a href="#discover">Discover</a><a href="#stores">Stores</a><a href="#safety">Safety</a><a href="#plans">Plans</a>
-    </nav>
-    <div class="header-actions"><button class="ghost-button" id="signInButton">Sign in</button><button class="primary-button" id="joinButton">Get started</button></div>
+    <a class="brand" href="#top"><span>✦</span> Stylish Name</a>
+    <nav><a href="#generator">Generator</a><a href="#styles">Styles</a><a href="#how">How it works</a></nav>
+    <button class="outline-button" id="themeButton" aria-label="Toggle theme">☼</button>
   </header>
 
   <main id="top">
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow">TRUSTED HELP, CLOSE TO HOME</p>
-        <h1>One calm place to get things <em>sorted.</em></h1>
-        <p class="hero-lede">Find verified professionals, order from neighbourhood stores, and connect with people safely — with privacy built in from day one.</p>
-        <div class="search-shell"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search a service, store or professional"><button id="searchButton" class="primary-button">Search</button></div>
-        <div class="hero-trust"><span>✓ No government documents stored</span><span>✓ Transparent verification statuses</span></div>
+        <p class="eyebrow">YOUR NAME, YOUR VIBE</p>
+        <h1>Simple text ko <em>stylish</em> bana do.</h1>
+        <p class="lede">Instagram bio, gaming ID, WhatsApp name ya profile ke liye cool text banayein — type karein, style choose karein aur ek tap mein copy karein.</p>
+        <div class="hero-badges"><span>✓ Free forever</span><span>✓ No sign-up</span><span>✓ Copy & download</span></div>
       </div>
-      <div class="hero-panel">
-        <div class="panel-orb"></div><div class="panel-card panel-main"><span class="panel-icon">🛡️</span><div><strong>Privacy-first by design</strong><p>Only the minimum status is kept. Sensitive identity documents never enter LocalHelp.</p></div></div>
-        <div class="panel-card panel-mini"><b>4.9</b><span>★ average rating</span></div>
+      <div class="hero-orbit"><div class="floating-pill pill-one">𝓒𝓸𝓸𝓵 𝓝𝓪𝓶𝓮</div><div class="floating-pill pill-two">『 ＧＡＭＥＲ 』</div><div class="floating-pill pill-three">★ 𝕮𝖗𝖊𝖆𝖙𝖔𝖗 ★</div></div>
+    </section>
+
+    <section class="generator-section" id="generator">
+      <div class="section-heading"><div><p class="eyebrow">MAKE IT YOURS</p><h2>Apna text likhiye</h2></div><span id="charCount">0 / 80</span></div>
+      <div class="input-wrap"><textarea id="sourceText" maxlength="80" placeholder="Yahan apna naam ya text likhein..." aria-label="Text to style">Aman</textarea><button id="clearButton" class="clear-button" title="Clear text">×</button></div>
+      <div class="quick-row"><span>Try:</span><button data-sample="亗 Shadow 亗">亗 Shadow 亗</button><button data-sample="Royal King">Royal King</button><button data-sample="Dream Big">Dream Big</button><button data-sample="꧁༺ Gamer ༻꧂">꧁༺ Gamer ༻꧂</button></div>
+      <div class="toolbar"><div class="tabs"><button class="tab active" data-filter="all">All styles · 1,000+</button><button class="tab" data-filter="clean">Classic</button><button class="tab" data-filter="font">Fonts</button><button class="tab" data-filter="gaming">Gaming</button><button class="tab" data-filter="cute">Cute</button><button class="tab" data-filter="symbols">Symbols</button><button class="tab" data-filter="generated">Mixes</button></div><button id="randomButton" class="random-button">⤨ Random style</button></div>
+      <div class="style-grid" id="styleGrid"></div>
+      <div class="empty" id="emptyState">Text likhte hi stylish options yahan dikhengi.</div>
+    </section>
+
+    <section class="why-section" id="styles">
+      <div class="section-heading"><div><p class="eyebrow">FIND YOUR STYLE</p><h2>Har mood ke liye style</h2></div></div>
+      <div class="category-grid">
+        <article><span class="category-icon purple">✦</span><h3>Profile & Bio</h3><p>Clean, elegant aur readable names jo Instagram, WhatsApp aur social profiles par achhe lagte hain.</p></article>
+        <article><span class="category-icon orange">⚡</span><h3>Gaming Names</h3><p>Battle royale, esports aur gaming IDs ke liye symbols, brackets aur bold styles.</p></article>
+        <article><span class="category-icon pink">♡</span><h3>Cute & Aesthetic</h3><p>Soft hearts, stars aur aesthetic fonts se apne text ko alag identity dijiye.</p></article>
       </div>
     </section>
 
-    <section class="section" id="discover">
-      <div class="section-title"><div><p class="eyebrow">DISCOVER LOCAL HELP</p><h2>Professionals people rely on</h2></div><span id="resultCount"></span></div>
-      <div class="mode-notice" id="modeNotice">Demo examples are shown while the secure service is offline.</div>
-      <div class="chip-row" id="categoryFilters">
-        <button class="chip active" data-category="All">All</button><button class="chip" data-category="Home">Home</button><button class="chip" data-category="Medical">Medical</button><button class="chip" data-category="Digital">Digital</button><button class="chip" data-category="Learning">Learning</button><button class="chip" data-category="Business">Business</button><button class="chip" data-category="Personal">Personal</button>
-      </div>
-      <div class="card-grid" id="professionalGrid"></div>
-      <p class="empty-state" id="emptyProfessionals">No matching professionals. Try a different search.</p>
-    </section>
-
-    <section class="section provider-section" id="for-professionals">
-      <div class="section-title"><div><p class="eyebrow">GROW YOUR WORK</p><h2>Professional profile and portfolio</h2><p>Sign in, describe your service, then publish safe work samples for customers to discover.</p></div></div>
-      <div class="provider-grid">
-        <form class="provider-form" id="professionalProfileForm">
-          <h3>Create your professional profile</h3>
-          <label>Display name<input name="displayName" required maxlength="80" placeholder="Your professional name"></label>
-          <label>Category<input name="category" required maxlength="40" placeholder="e.g. Video Editor"></label>
-          <label>Service area<input name="serviceArea" required maxlength="80" placeholder="City or broad area"></label>
-          <label>About your service<textarea name="description" required maxlength="1000" placeholder="What do you help people with?"></textarea></label>
-          <label>Experience in years<input name="experienceYears" type="number" min="0" max="80"></label>
-          <label>Availability<input name="availability" maxlength="120" placeholder="Mon-Sat, 10am-6pm"></label>
-          <label>Starting price<input name="pricingSummary" maxlength="160" placeholder="Starting from ₹999"></label>
-          <button class="primary-wide" type="submit">Save professional profile</button>
-          <p class="form-message" id="profileMessage"></p>
-        </form>
-        <form class="provider-form" id="portfolioForm">
-          <h3>Publish a work sample</h3>
-          <label>Work title<input name="title" required maxlength="120" placeholder="Business reel editing"></label>
-          <label>Description<textarea name="description" required maxlength="2000" placeholder="Explain what you delivered and the result."></textarea></label>
-          <label>Skills<input name="skills" maxlength="400" placeholder="Premiere Pro, Reels, Colour grading"></label>
-          <label>Portfolio link (optional)<input name="portfolioUrl" type="url" maxlength="500" placeholder="https://your-portfolio.example"></label>
-          <button class="primary-wide" type="submit">Publish work sample</button>
-          <p class="form-message" id="portfolioMessage"></p>
-          <small>Do not upload government IDs, private documents, customer data or sensitive files.</small>
-        </form>
-      </div>
-    </section>
-
-    <section class="section store-section" id="stores">
-      <div class="section-title"><div><p class="eyebrow">SHOP LOCAL</p><h2>Neighbourhood stores</h2></div><span id="cartCount">0 items</span></div>
-      <div class="store-grid" id="storeGrid"></div>
-      <div class="cart-strip"><span id="cartSummary">Your cart is empty</span><button class="lime-button" id="reviewOrder" disabled>Review order</button></div>
-    </section>
-
-    <section class="section safety-section" id="safety">
-      <div class="section-title"><div><p class="eyebrow">BUILT FOR SAFER CONNECTIONS</p><h2>Trust is a system, not a badge.</h2></div></div>
-      <div class="safety-grid">
-        <article><span class="number">01</span><h3>Minimal verification</h3><p>LocalHelp stores only phone/email/identity/age/provider status and a random provider reference — never ID images, numbers or biometrics.</p></article>
-        <article><span class="number">02</span><h3>Human moderation</h3><p>Report, block, review queues and rate limits are core product features. Suspicious activity is flagged without exposing private data.</p></article>
-        <article><span class="number">03</span><h3>Private by default</h3><p>Coarse area only, no public phone numbers, no exact addresses, no sensitive documents in uploads, logs, analytics or backups.</p></article>
-      </div>
-      <div class="warning-box">⚠️ Never send money or government documents to someone you met online. Verification reduces risk; it cannot guarantee a person’s behaviour.</div>
-    </section>
-
-    <section class="section plans-section" id="plans">
-      <div class="section-title centered"><div><p class="eyebrow">SUSTAINABLE LOCAL BUSINESS</p><h2>Simple plans that help us keep it safe</h2><p>Users can discover and connect for free. Professionals pay only for tools that help them grow.</p></div></div>
-      <div class="plan-grid">
-        <article class="plan"><p class="plan-label">FOR USERS</p><h3>Free</h3><strong>₹0</strong><p>Discover providers, request quotes and shop local.</p><button class="outline-wide" data-plan="Free">Current plan</button></article>
-        <article class="plan featured"><span class="popular-tag">MOST POPULAR</span><p class="plan-label">FOR PROFESSIONALS</p><h3>Pro profile</h3><strong>₹299 <small>/month</small></strong><p>Priority discovery, portfolio, availability and verification-status signals.</p><button class="primary-wide" data-plan="Pro profile">Request early access</button></article>
-        <article class="plan"><p class="plan-label">FOR STORES</p><h3>Local shop</h3><strong>₹499 <small>/month</small></strong><p>Product catalogue, order requests and customer insights without selling personal data.</p><button class="outline-wide" data-plan="Local shop">Join stores</button></article>
-      </div>
+    <section class="how-section" id="how">
+      <div><p class="eyebrow">THREE EASY STEPS</p><h2>Bas type, tap, copy.</h2></div>
+      <div class="steps"><div><b>01</b><h3>Text likhiye</h3><p>Naam, username, caption ya koi bhi short text enter karein.</p></div><div><b>02</b><h3>Style choose karein</h3><p>Cards ko browse karke apna favourite design dekhein.</p></div><div><b>03</b><h3>Copy ya download</h3><p>Styled text ko clipboard mein copy karein ya TXT file save karein.</p></div></div>
     </section>
   </main>
-
-  <footer><span>© 2026 LocalHelp</span><span>Privacy-first local discovery</span><a href="privacy.html">Privacy</a><a href="terms.html">Terms & safety</a><a href="#safety">Safety principles</a></footer>
-
-  <div class="modal-backdrop" id="actionModal" aria-hidden="true"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="close-modal" id="closeModal" aria-label="Close">×</button><p class="eyebrow" id="modalEyebrow">GET STARTED</p><h2 id="modalTitle">Join LocalHelp</h2><p class="modal-copy" id="modalCopy">Create a secure account with your email. We never ask for government documents in this app.</p><form id="actionForm"><label>Email<input name="contact" type="email" required placeholder="you@example.com"></label><button class="primary-wide" type="submit" id="modalSubmit">Continue securely</button></form><p class="success-message" id="successMessage"></p></div></div>
-  <script src="script.js"></script>
+  <footer><span>© 2026 Stylish Name</span><span>Made for your next profile</span><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard ✓</div>
+  <style>.load-more{display:block;margin:24px auto 0;padding:12px 22px;border:1px solid #9a7cff;background:#24213d;color:#f8f7ff;border-radius:5px;font-weight:700;font-size:12px;cursor:pointer}.load-more:hover{background:#9a7cff}</style>
+  <script src="script.js?v=5"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: localhelp-api
+    name: stylish-name
     runtime: docker
     plan: starter
     dockerfilePath: ./Dockerfile
@@ -12,12 +12,12 @@ services:
         value: 3000
       - key: DATABASE_URL
         fromDatabase:
-          name: localhelp-db
+          name: stylish-name-db
           property: connectionString
       - key: JWT_ISSUER
-        value: localhelp
+        value: stylish-name
       - key: JWT_AUDIENCE
-        value: localhelp-web
+        value: stylish-name-web
       - key: JWT_SECRET
         generateValue: true
       - key: ALLOWED_ORIGINS
@@ -34,7 +34,7 @@ services:
         sync: false
 
 databases:
-  - name: localhelp-db
+  - name: stylish-name-db
     plan: starter
-    databaseName: localhelp
-    user: localhelp
+    databaseName: stylish_name
+    user: stylish_name
