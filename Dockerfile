@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
-COPY index.html privacy.html terms.html styles.css script.js ./
+COPY index.html about.html privacy.html terms.html robots.txt sitemap.xml styles.css script.js ./
 COPY server ./server
 
 USER node

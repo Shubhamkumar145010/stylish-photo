@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://stylish-name.onrender.com/sitemap.xml

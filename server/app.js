@@ -116,6 +116,9 @@ export function createApp({ database = createDatabase(), verifyAccessToken = cre
   app.get("/index.html", publicAsset("index.html", "no-cache"));
   app.get("/privacy.html", publicAsset("privacy.html", "no-cache"));
   app.get("/terms.html", publicAsset("terms.html", "no-cache"));
+  app.get("/about.html", publicAsset("about.html", "no-cache"));
+  app.get("/robots.txt", publicAsset("robots.txt", "public, max-age=3600"));
+  app.get("/sitemap.xml", publicAsset("sitemap.xml", "public, max-age=3600"));
   app.get("/styles.css", publicAsset("styles.css", "public, max-age=3600, immutable"));
   app.get("/script.js", publicAsset("script.js", "public, max-age=3600, immutable"));
   app.use(cors({
